@@ -1,55 +1,66 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class movescript : MonoBehaviour
+public class BikeController : MonoBehaviour
 {
+    public bool push = false;
+    public float speed = 0;
 
-    float speed = 0f;
     float movePower = 0.2f;
-    bool push = false;
     Rigidbody2D rb2d;
+
+    const int MinLane = 0;
+    const int MaxLane = 4;
+    const float LaneWidth = 1.0f;
+    int targetLane;
 
 	void Start ()
     {
         rb2d = GetComponent<Rigidbody2D>();
 
     }
-	
-	void Update ()
+
+    void FixedUpdate()
     {
-        if(push)
+        //*Time.deltaTime;
+        if (push == true)
         {
 
+            if (5 > speed)
+            {
+                speed += 1f;
+                rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+            }
+
+        }
+        else if (push == false)
+        {
+            if (0 < speed)
+            {
+                speed -= 0.5f;
+                rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+            }
         }
     }
 
-    void Accel()
+    void Update()
     {
-        speed += 3f;
-        rb2d.velocity = new Vector3(rb2d.velocity.x + speed, rb2d.velocity.y);
+
     }
 
-    void DownAccel()
-    {
-        speed -=2;
-        rb2d.velocity = new Vector3(rb2d.velocity.x + speed, rb2d.velocity.y);
-        if (speed < 0)
-        {
-            speed = 0;
-        }
-    }
-
-    void Up()
+    public void Accel()
     {
         push = true;
+
     }
 
-    void Down()
+    public void Brake()
     {
         push = false;
+
     }
 
-    /*
+
     void Right()
     {
         if (transform.position.y <= 5f)
@@ -67,5 +78,5 @@ public class movescript : MonoBehaviour
             Vector2 temp = new Vector2(transform.position.x - movePower, transform.position.y);
             transform.position = temp;
         }
-    }*/
+    }
 }
