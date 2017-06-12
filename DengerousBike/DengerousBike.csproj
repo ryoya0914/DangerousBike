@@ -84,7 +84,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MainGame\Scripts\movescript.cs" />
+    <Compile Include="Assets\Common\Localization.cs" />
+    <Compile Include="Assets\Common\LocalizeText.cs" />
+    <Compile Include="Assets\Common\LocalizedText.cs" />
+    <Compile Include="Assets\Common\Singleton.cs" />
+    <Compile Include="Assets\MainGame\Scripts\BikeController.cs" />
+    <Compile Include="Assets\MainGame\Scripts\FollowPlayer.cs" />
+    <Compile Include="Assets\MainGame\Scripts\StageGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
