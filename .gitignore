@@ -4,7 +4,8 @@
 [Tt]emp/
 [Oo]bj/
 [Bb]uild
-/[Ll]ibrary/
+DengerousBike/Library/*
+Library/
 sysinfo.txt
 *.stackdump
  
@@ -17,11 +18,12 @@ sysinfo.txt
 /*.csproj
 /*.pidb
 /*.suo
-/*.sln*
+/*.sln
 /*.user
 /*.unityproj
 /*.booproj
 /.idea*/
+*.sln
  
 # ============ #
 # OS generated #
