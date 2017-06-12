@@ -52,13 +52,17 @@ public class Localization : Singleton<Localization> {
     public enum WORDS
     {
         ACCEL,
-        BRAKE
+        BRAKE,
+		START,
+		SUBTITLE
     };
 
     private UIWord[] m_words = new UIWord[]
     {
         new UIWord("ACCEL", "アクセル", "ACELERAR"),
-        new UIWord("BRAKE", "ブレーキ", "FRENAR")
+        new UIWord("BRAKE", "ブレーキ", "FRENAR"),
+		new UIWord("START", "スタート", "COMENZAR"),
+		new UIWord("", "デンジャラスバイク", "")
     };
 
 	public void Initialize ()
