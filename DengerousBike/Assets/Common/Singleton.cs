@@ -1,45 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Singleton<T> : MonoBehaviour where T : Singleton<T>
+public class Singleton<T> : MonoBehaviour where T : Component
 {
-    protected static T instance;
+    private static T instance;
     public static T Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = (T)FindObjectOfType(typeof(T));
-
+                instance = FindObjectOfType<T>();
                 if (instance == null)
                 {
-                    Debug.LogWarning(typeof(T) + "is nothing");
+                    GameObject obj = new GameObject();
+                    obj.name = typeof(T).Name;
+                    instance = obj.AddComponent<T>();
                 }
             }
-
             return instance;
         }
     }
 
-    protected void Awake()
-    {
-        CheckInstance();
-    }
-
-    protected bool CheckInstance()
+    public virtual void Awake()
     {
         if (instance == null)
         {
-            instance = (T)this;
-            return true;
+            instance = this as T;
+            DontDestroyOnLoad(this.gameObject);
         }
-        else if (Instance == this)
+        else
         {
-            return true;
+            Destroy(gameObject);
         }
-
-        Destroy(this);
-        return false;
     }
 }

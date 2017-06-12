@@ -9,4 +9,9 @@ public class TitleScene : MonoBehaviour {
 	{
 		SceneManager.LoadScene ("main");
 	}
+
+    public void OnOptionButtonClicled()
+    {
+        SceneManager.LoadScene("Option");
+    }
 }

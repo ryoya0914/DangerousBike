@@ -54,7 +54,9 @@ public class Localization : Singleton<Localization> {
         ACCEL,
         BRAKE,
 		START,
-		SUBTITLE
+		SUBTITLE,
+        LANGUAGE,
+        BACK
     };
 
     private UIWord[] m_words = new UIWord[]
@@ -62,7 +64,9 @@ public class Localization : Singleton<Localization> {
         new UIWord("ACCEL", "アクセル", "ACELERAR"),
         new UIWord("BRAKE", "ブレーキ", "FRENAR"),
 		new UIWord("START", "スタート", "COMENZAR"),
-		new UIWord("", "デンジャラスバイク", "")
+		new UIWord("", "デンジャラスバイク", ""),
+        new UIWord("LANGUAGE", "言語", "IDIOMA"),
+        new UIWord("BACK", "戻る", "REGRESAR")
     };
 
 	public void Initialize ()
@@ -106,6 +110,12 @@ public class Localization : Singleton<Localization> {
     public void ChangeLanguage(LANGUAGES lang)
     {
         m_currentLanguage = (int)lang;
+        PlayerPrefs.SetInt(m_languageKey, m_currentLanguage);
+    }
+
+    public int GetCurrentLanguage()
+    {
+        return m_currentLanguage;
     }
 
     public string GetWord(WORDS word)
