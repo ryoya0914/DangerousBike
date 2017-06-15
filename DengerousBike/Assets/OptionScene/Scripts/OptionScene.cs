@@ -19,18 +19,18 @@ public class OptionScene : MonoBehaviour {
     Text rewardCount;
 
     private bool rewardReady = false;
-    static private int rewardedTimes = 0;
+    private int rewardedTimes = 0;
 
     private int frameSkip = 0;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         rewardReady = AdController.Instance.isRewardedVideoReady();
         rewardedTimes = PlayerPrefs.GetInt("RewardedTimes", 0);
-        AdController.Instance.SetRewardAprovedDelegate(new AdController.RewardAproved(RewardAproved));
 	}
 	
-    public static void RewardAproved()
+    public void RewardAproved()
     {
         rewardedTimes++;
         PlayerPrefs.SetInt("RewardedTimes", rewardedTimes);
@@ -74,7 +74,9 @@ public class OptionScene : MonoBehaviour {
     {
         if(rewardReady)
         {
+            AdController.Instance.FindRewarder();
             AdController.Instance.ShowRewardedVideo();
+            rewardButton.SetActive(false);
         }
     }
 }
