@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class BikeController : MonoBehaviour
 {
+    Animator animator;
+
     public bool push = false;
-    public bool WL = false;
+    public bool Jump = false;
+    public bool Moving = false;
     public float speed = 0;
 
     float movePower = 0.2f;
@@ -20,84 +23,59 @@ public class BikeController : MonoBehaviour
 	void Start ()
     {
         rb2d = GetComponent<Rigidbody2D>();
-
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        //*Time.deltaTime;
-        if (push == true)
+        if (5 > speed)
         {
-
-            if (5 > speed)
-            {
-                speed += 1f;
-                rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
-            }
+            speed += 0.5f;
+            rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+        }
+        else if (0 < speed)        //*Time.deltaTime;
+        {
+            speed -= 0.5f;
+            rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
 
         }
-        else if (push == false)
-        {
-            if (0 < speed)
-            {
-                speed -= 0.5f;
-                rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
-            }
-        }
 
-        if (WL == true)
-        {
-            Wheelie();
-        }
-        else if (WL == false)
+        if (Jump == true)
         {
 
         }
-    }
-
-    public void Accel()
-    {
-        push = true;
-
-    }
-
-    public void Brake()
-    {
-        push = false;
-
-    }
-
-    public void Down()
-    {
-        if (targetLane > MinLane)
+        else if (Jump == false)
         {
-            ChangeLane(false);
+
         }
-
-
-
-    }
-
-    public void Up()
-    {
-        if (targetLane < MaxLane)
-        {
-            ChangeLane(true);
-        }
-    }
-
-    void Wheelie()
-    {
-        transform.Rotate(0, 0, 70);
     }
 
     public void WheelieUp()
     {
-        WL = true;
+        Jump = true;
     }
     public void WheelieDown()
     {
-        WL = false;
+        Jump = false;
+    }
+
+
+    public void Down()
+    {
+        if (targetLane > MinLane && !Moving)
+        {
+            Moving = true;
+            ChangeLane(false);
+        }
+    }
+
+    public void Up()
+    {
+        if (targetLane < MaxLane && !Moving)
+        {
+            Moving = true;
+            ChangeLane(true);
+        }
     }
 
     void ChangeLane(bool up)
@@ -106,7 +84,7 @@ public class BikeController : MonoBehaviour
         targetLane += inc;
         var To = wall.transform.position;
         To.y += inc * 0.8f;
-        StartCoroutine(MoveFormTo(wall.transform, wall.transform.position, To, 1.0f));
+        StartCoroutine(MoveFormTo(wall.transform, wall.transform.position, To, 5.0f));
     }
 
     IEnumerator MoveFormTo(Transform ToMove,Vector3 Form,Vector3 To,float speed)
@@ -129,5 +107,11 @@ public class BikeController : MonoBehaviour
         pos1.y = pos2.y;
         pos1.x = 0;
         ToMove.localPosition = pos1;
+        Moving = false;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        
     }
 }

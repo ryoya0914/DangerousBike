@@ -54,6 +54,7 @@ public class StageGenerator : MonoBehaviour
         int NextStageTip = Random.Range(0, StageTips.Length);
 
         GameObject StageObject = (GameObject)Instantiate(StageTips[NextStageTip], new Vector3(TipIndex * StageTipSize, 0, 0), Quaternion.identity);
+        StageObject.name = "road(Clone)";
         return StageObject;
     }
 
