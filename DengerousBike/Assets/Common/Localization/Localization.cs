@@ -69,6 +69,11 @@ public class Localization : Singleton<Localization> {
         new UIWord("BACK", "戻る", "REGRESAR")
     };
 
+    void Start()
+    {
+        Initialize();
+    }
+
 	public void Initialize ()
     {
         if (m_currentLanguage != (int)LANGUAGES.NONE)
