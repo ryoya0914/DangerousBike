@@ -20,7 +20,8 @@ public class StageGenerator : MonoBehaviour
         //初期化処理
         CurrentTipIndex = StartTipIndex - 1;
         UpdateStage(TipInstantiate);
-	}
+
+    }
 	
 	void Update ()
     {
@@ -53,7 +54,7 @@ public class StageGenerator : MonoBehaviour
     {
         int NextStageTip = Random.Range(0, StageTips.Length);
 
-        GameObject StageObject = (GameObject)Instantiate(StageTips[NextStageTip], new Vector3(TipIndex * StageTipSize, 0, 0), Quaternion.identity);
+        GameObject StageObject = PoolManager.SpawnObject(StageTips[NextStageTip], new Vector3(TipIndex * StageTipSize, 0, 0), Quaternion.identity);
         StageObject.name = "road(Clone)";
         return StageObject;
     }
@@ -62,6 +63,7 @@ public class StageGenerator : MonoBehaviour
     {
         GameObject OldStage = GameObject.Find("road(Clone)");
         GeneratedStageList.RemoveAt(0);
-        Destroy(OldStage);
+        //Destroy(OldStage);
+        PoolManager.ReleaseObject(OldStage);
     }
 }
