@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BikeController : MonoBehaviour
 {
     Animator animator;
+
+    private Renderer renderer;
 
     public bool push = false;
     public bool Jump = false;
@@ -28,36 +32,15 @@ public class BikeController : MonoBehaviour
 
     void Update()
     {
-        if (5 > speed)
-        {
-            speed += 0.5f;
-            rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
-        }
-        else if (0 < speed)        //*Time.deltaTime;
-        {
-            speed -= 0.5f;
-            rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+        StartCoroutine(StartScene());
+        /*else if (0 < speed)        //*Time.deltaTime;
+        //{
+           // speed -= 0.5f;
+            //rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+        }*/
 
-        }
-
-        if (Jump == true)
-        {
-
-        }
-        else if (Jump == false)
-        {
-
-        }
     }
 
-    public void WheelieUp()
-    {
-        Jump = true;
-    }
-    public void WheelieDown()
-    {
-        Jump = false;
-    }
 
 
     public void Down()
@@ -110,8 +93,18 @@ public class BikeController : MonoBehaviour
         Moving = false;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    IEnumerator StartScene()
     {
-        
+        yield return new WaitForSeconds(2);
+        if (5 > speed)
+        {
+            speed += 0.5f;
+            rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+        }
+    }
+
+    public void ReLoad()
+    {
+        SceneManager.LoadScene("main");
     }
 }

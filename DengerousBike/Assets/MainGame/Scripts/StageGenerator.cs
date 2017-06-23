@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StageGenerator : MonoBehaviour
 {
-    const int StageTipSize = 5;
+    const int StageTipSize = 6;
 
     int CurrentTipIndex;
 
@@ -15,15 +15,15 @@ public class StageGenerator : MonoBehaviour
     public List<GameObject> GeneratedStageList = new List<GameObject>();//生成済みステージ保持リスト
 
 
-	void Start ()
+    void Start()
     {
         //初期化処理
         CurrentTipIndex = StartTipIndex - 1;
         UpdateStage(TipInstantiate);
 
     }
-	
-	void Update ()
+
+    void Update()
     {
         int BikePositionIndex = (int)(Bike.position.x / StageTipSize);
 
@@ -31,7 +31,7 @@ public class StageGenerator : MonoBehaviour
         {
             UpdateStage(BikePositionIndex + TipInstantiate);
         }
-	}
+    }
 
     void UpdateStage(int toTipIndex)
     {
@@ -54,7 +54,7 @@ public class StageGenerator : MonoBehaviour
     {
         int NextStageTip = Random.Range(0, StageTips.Length);
 
-        GameObject StageObject = PoolManager.SpawnObject(StageTips[NextStageTip], new Vector3(TipIndex * StageTipSize, 0, 0), Quaternion.identity);
+        GameObject StageObject = PoolManager.SpawnObject(StageTips[NextStageTip], new Vector3(TipIndex * StageTipSize, 1.5f, 0), Quaternion.identity);
         StageObject.name = "road(Clone)";
         return StageObject;
     }
