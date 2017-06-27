@@ -24,6 +24,8 @@ public class TrackController : MonoBehaviour
             GameObject.Find("Canvas/up").GetComponent<Button>().enabled = false;
             GameObject.Find("Canvas/down").GetComponent<Button>().enabled = false;
             GameObject.Find("GameOver").GetComponent<Canvas>().enabled = true;
+            GameObject.Find("ForeGroundGenerator").GetComponent<ForeGroundGenerator>().enabled = false;
+            GameObject.Find("BackGroundGenerator").GetComponent<BackGroundGenerator>().enabled = false;
         }
     }
 }

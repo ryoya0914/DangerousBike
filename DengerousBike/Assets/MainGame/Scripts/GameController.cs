@@ -8,9 +8,11 @@ public class GameController : MonoBehaviour
 {
     public GameObject bike;
     public Renderer renderer;
+    private BikeController hoge;
 
     void Start()
     {
+        hoge = GetComponent<BikeController>();
     }
 
     void Update()
@@ -32,6 +34,8 @@ public class GameController : MonoBehaviour
         GameObject.Find("Canvas/up").GetComponent<Button>().enabled = true;
         GameObject.Find("Canvas/down").GetComponent<Button>().enabled = true;
         GameObject.Find("GameOver").GetComponent<Canvas>().enabled = false;
+        GameObject.Find("ForeGroundGenerator").GetComponent<ForeGroundGenerator>().enabled = true;
+        GameObject.Find("BackGroundGenerator").GetComponent<BackGroundGenerator>().enabled = true;
     }
 
     IEnumerator Invincible()
