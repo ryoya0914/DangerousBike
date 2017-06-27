@@ -8,8 +8,10 @@ public class BikeController : MonoBehaviour
     Animator animator;
 
     private Renderer renderer;
+    public GameObject bike;
 
-    public bool push = false;
+    public bool PushLeft = false;
+    public bool PushRight = false;
     public bool Jump = false;
     public bool Moving = false;
     public float speed = 0;
@@ -33,6 +35,18 @@ public class BikeController : MonoBehaviour
     void Update()
     {
         StartCoroutine(StartScene());
+
+        if (PushLeft == true)
+        {
+            bike.transform.Rotate(0, 0, -2);
+        }
+
+        if (PushRight == true)
+        {
+            bike.transform.Rotate(0, 0, 2);
+        }
+        //rb2d.angularVelocity = new Vector3(2,rb2d.angularVelocity.z);
+
         /*else if (0 < speed)        //*Time.deltaTime;
         //{
            // speed -= 0.5f;
@@ -60,7 +74,6 @@ public class BikeController : MonoBehaviour
             ChangeLane(true);
         }
     }
-
     void ChangeLane(bool up)
     {
         var inc = up ? 1 : -1;
@@ -101,6 +114,24 @@ public class BikeController : MonoBehaviour
             speed += 0.5f;
             rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
         }
+    }
+
+    public void LeftUp()
+    {
+        PushLeft = true;
+    }
+    public void LeftDown()
+    {
+        PushLeft = false;
+    }
+
+    public void RightUp()
+    {
+        PushRight = true;
+    }
+    public void RightDown()
+    {
+        PushRight = false;
     }
 
     public void ReLoad()
