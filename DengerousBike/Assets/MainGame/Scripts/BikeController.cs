@@ -24,16 +24,22 @@ public class BikeController : MonoBehaviour
     const float LaneWidth = 1.0f;
     int targetLane;
     public GameObject wall;
+    private bool stopped = false;
 
 
 	void Start ()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        
     }
 
     void Update()
     {
+        if (stopped)
+            return;
+
         StartCoroutine(StartScene());
 
         if (PushLeft == true)
@@ -109,7 +115,7 @@ public class BikeController : MonoBehaviour
     IEnumerator StartScene()
     {
         yield return new WaitForSeconds(2);
-        if (5 > speed)
+        if (5 > speed && !stopped)
         {
             speed += 0.5f;
             rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
@@ -137,5 +143,18 @@ public class BikeController : MonoBehaviour
     public void ReLoad()
     {
         SceneManager.LoadScene("main");
+    }
+
+    public void StopBike()
+    {
+        speed = 0;
+        rb2d.velocity = Vector3.zero;
+        stopped = true;
+        StopCoroutine(StartScene());
+    }
+
+    public void RunBike()
+    {
+        stopped = false;
     }
 }

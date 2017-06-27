@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
-
+        bike.GetComponent<BikeController>().RunBike();
         StartCoroutine("Invincible");
         GameObject.Find("Canvas/up").GetComponent<Button>().enabled = true;
         GameObject.Find("Canvas/down").GetComponent<Button>().enabled = true;
