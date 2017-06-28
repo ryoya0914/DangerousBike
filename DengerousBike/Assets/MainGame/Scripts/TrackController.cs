@@ -20,12 +20,16 @@ public class TrackController : MonoBehaviour
     {
         if (collision.transform.gameObject.CompareTag("player"))
         {
-            collision.transform.gameObject.SetActive(false);
+            collision.gameObject.GetComponent<BikeController>().StopBike();
             GameObject.Find("Canvas/up").GetComponent<Button>().enabled = false;
             GameObject.Find("Canvas/down").GetComponent<Button>().enabled = false;
             GameObject.Find("GameOver").GetComponent<Canvas>().enabled = true;
-            GameObject.Find("ForeGroundGenerator").GetComponent<ForeGroundGenerator>().enabled = false;
-            GameObject.Find("BackGroundGenerator").GetComponent<BackGroundGenerator>().enabled = false;
+            var foreground = GameObject.Find("ForeGroundGenerator");
+            foreground.GetComponent<ForeGroundGenerator>().enabled = false;
+            foreground.GetComponent<ForeGroundGenerator>().StopAllCoroutines();
+            var background = GameObject.Find("BackGroundGenerator");
+            background.GetComponent<BackGroundGenerator>().enabled = false;
+            background.GetComponent<BackGroundGenerator>().StopAllCoroutines();
         }
     }
 }
