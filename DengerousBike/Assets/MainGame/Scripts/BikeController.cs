@@ -12,7 +12,6 @@ public class BikeController : MonoBehaviour
 
     public bool PushLeft = false;
     public bool PushRight = false;
-    public bool Jump = false;
     public bool Moving = false;
     public float speed = 0;
 
