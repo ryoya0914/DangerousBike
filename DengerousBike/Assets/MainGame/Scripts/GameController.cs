@@ -10,9 +10,13 @@ public class GameController : MonoBehaviour
     public Renderer renderer;
     private BikeController hoge;
 
+    private bool rewardGiven;
+
     void Start()
     {
+        rewardGiven = false;
         hoge = GetComponent<BikeController>();
+        AdController.Instance.m_rewardDelegate = GiveReward;
     }
 
     void Update()
@@ -20,15 +24,14 @@ public class GameController : MonoBehaviour
 
     }
 
-
-
     public void RetrunTitle()
     {
         SceneManager.LoadScene("Title");
     }
 
-    public void RestartGame()
+    public void GiveReward()
     {
+        rewardGiven = true;
         bike.GetComponent<BikeController>().RunBike();
         StartCoroutine("Invincible");
         GameObject.Find("Canvas/up").GetComponent<Button>().enabled = true;
@@ -36,6 +39,11 @@ public class GameController : MonoBehaviour
         GameObject.Find("GameOver").GetComponent<Canvas>().enabled = false;
         GameObject.Find("ForeGroundGenerator").GetComponent<ForeGroundGenerator>().enabled = true;
         GameObject.Find("BackGroundGenerator").GetComponent<BackGroundGenerator>().enabled = true;
+    }
+
+    public void RestartGame()
+    {
+        AdController.Instance.ShowRewardedVideo();
     }
 
     IEnumerator Invincible()

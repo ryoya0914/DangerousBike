@@ -72,11 +72,5 @@ public class OptionScene : MonoBehaviour {
 
     public void OnRewardedButtonClicked()
     {
-        if(rewardReady)
-        {
-            AdController.Instance.FindRewarder();
-            AdController.Instance.ShowRewardedVideo();
-            rewardButton.SetActive(false);
-        }
     }
 }
