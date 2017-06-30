@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackGroundGenerator : MonoBehaviour
+public class GroundGenerator : MonoBehaviour
 {
-    //const int StageTipSize = 2;
-    private float speed = 5f;
+    [SerializeField]
+    float speed;
+    [SerializeField]
+    float y;
+    [SerializeField]
+    float Tipsize;
 
     int CurrentTipIndex;
 
@@ -15,7 +19,7 @@ public class BackGroundGenerator : MonoBehaviour
     public int StartTipIndex;//ステージ配列
     public int TipInstantiate;//生成ステージ読み込み個数
     public List<GameObject> GeneratedStageList = new List<GameObject>();//生成済みステージ保持リスト
-
+    public string objNamme;
 
     void Start()
     {
@@ -41,7 +45,7 @@ public class BackGroundGenerator : MonoBehaviour
             GeneratedStageList.Add(StageObject);
         }
 
-        while (GeneratedStageList.Count > TipInstantiate + 6) DestroyOldStage();
+        while (GeneratedStageList.Count > TipInstantiate + Tipsize) DestroyOldStage();
 
         CurrentTipIndex = toTipIndex;
 
@@ -50,8 +54,8 @@ public class BackGroundGenerator : MonoBehaviour
     GameObject GenerateStage(int TipIndex)
     {
         //int NextStageTip = Random.Range(0, StageTips.Length);
-        GameObject StageObject = PoolManager.SpawnObject(Stage, new Vector3(TipIndex * speed, 5.6f, 0), Quaternion.identity);
-        StageObject.name = "BackGround";
+        GameObject StageObject = PoolManager.SpawnObject(Stage, new Vector3(TipIndex * speed, y, 0), Quaternion.identity);
+        StageObject.name = objNamme;
         var pos = StageObject.transform.position;
         pos.x -= 3;
         StageObject.transform.position = pos;
@@ -60,7 +64,7 @@ public class BackGroundGenerator : MonoBehaviour
 
     void DestroyOldStage()
     {
-        GameObject OldStage = GameObject.Find("BackGround");
+        GameObject OldStage = GameObject.Find(objNamme);
         GeneratedStageList.RemoveAt(0);
         //Destroy(OldStage);
         PoolManager.ReleaseObject(OldStage);
