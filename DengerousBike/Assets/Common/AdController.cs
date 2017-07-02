@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class AdController : Singleton<AdController>
 {
-    OptionScene optionScene;
     bool rewarderFound = false;
+    public delegate void RewarderDelegate();
+    public RewarderDelegate m_rewardDelegate;
 
     void Start()
     {
+        m_rewardDelegate = EmptyMothod;
+
 #if !UNITY_EDITOR
         AppLovin.SetSdkKey("cBmxxgR0WEQ2g9uRR0mbcORZUeFHePvFbfAXKcTsrzvW7nzZniAN6cyaFCsucm8DPJllwHbmFUHNFFx0y5O2hL");
         AppLovin.InitializeSdk();
@@ -17,14 +20,14 @@ public class AdController : Singleton<AdController>
 #endif
     }
 
-    public void FindRewarder()
+    void EmptyMothod()
     {
-        optionScene = GameObject.Find("OptionScene").GetComponent<OptionScene>();
+        Debug.Log("Reward was not set");
+    }
 
-        if(optionScene)
-        {
-            rewarderFound = true;
-        }
+    public void FindRewarder(RewarderDelegate rewarder)
+    {
+        rewarder();
     }
 
     public bool isRewardedVideoReady()
@@ -49,22 +52,23 @@ public class AdController : Singleton<AdController>
         if (ev.Contains("HIDDENREWARDED"))
         {
             AppLovin.LoadRewardedInterstitial();
+            OnVideoSuccess();
         }
         else if (ev.Contains("VIDEOBEGAN"))
         {
-            OnVideoStart();
+            //OnVideoStart();
         }
         else if (ev.Contains("REWARDAPPROVED"))
         {
-            OnVideoSuccess();
+            //OnVideoSuccess();
         }
         else if (ev.Contains("REWARDREJECTED"))
         {
-            OnVideoFailure();
+            //OnVideoFailure();
         }
         else if (ev.Contains("VIDEOSTOPPED"))
         {
-            OnVideoClose();
+            //OnVideoClose();
         }
     }
 
@@ -75,11 +79,7 @@ public class AdController : Singleton<AdController>
 
     void OnVideoSuccess()
     {
-        if(rewarderFound)
-        {
-            optionScene.RewardAproved();
-            rewarderFound = false;
-        }
+        m_rewardDelegate();
     }
 
     void OnVideoFailure()

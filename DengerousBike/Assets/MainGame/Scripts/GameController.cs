@@ -6,17 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject bike;
-    public GameObject Up;
-    public GameObject Down;
-    public GameObject GameOver;
-    public GameObject ForeGroundGenerator;
-    public GameObject BackGroundGenerator;
+    [SerializeField]
+    GameObject bike;
+    [SerializeField]
+    GameObject Up;
+    [SerializeField]
+    GameObject Down;
+    [SerializeField]
+    GameObject GameOver;
+    [SerializeField]
+    GameObject ForeGroundGenerator;
+    [SerializeField]
+    GameObject BackGroundGenerator;
+    [SerializeField] Renderer renderer;
+
     private bool rewardGiven;
     void Start()
     {
         rewardGiven = false;
         AdController.Instance.m_rewardDelegate = GiveReward;
+
     }
 
     void Update()
