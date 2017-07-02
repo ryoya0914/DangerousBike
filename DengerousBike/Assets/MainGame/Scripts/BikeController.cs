@@ -7,13 +7,15 @@ public class BikeController : MonoBehaviour
 {
     Animator animator;
 
-    private Renderer renderer;
-    public GameObject bike;
+    [SerializeField] Renderer render;
+    [SerializeField] GameObject bike;
 
-    public bool PushLeft = false;
-    public bool PushRight = false;
-    public bool Moving = false;
-    public float speed = 0;
+    private bool PushLeft = false;
+    private bool PushRight = false;
+    private bool Moving = false;
+    private bool Jump = false;
+    private float flap = 0f;
+    private float speed = 0;
 
     float movePower = 0.2f;
     Rigidbody2D rb2d;
@@ -22,8 +24,13 @@ public class BikeController : MonoBehaviour
     const int MaxLane = 2;
     const float LaneWidth = 1.0f;
     int targetLane;
-    public GameObject wall;
+    [SerializeField] GameObject wall;
     private bool stopped = false;
+    public bool Stopped
+    {
+        get { return stopped; }
+        set { stopped = value; }
+    }
 
 
 	void Start ()
@@ -50,6 +57,11 @@ public class BikeController : MonoBehaviour
         {
             bike.transform.Rotate(0, 0, 2);
         }
+
+        if(Jump == true)
+        {
+            rb2d.AddForce(Vector2.up * flap);
+        }
         //rb2d.angularVelocity = new Vector3(2,rb2d.angularVelocity.z);
 
         /*else if (0 < speed)        //*Time.deltaTime;
@@ -64,6 +76,10 @@ public class BikeController : MonoBehaviour
 
     public void Down()
     {
+        if(stopped == true)
+        {
+            return;
+        }
         if (targetLane > MinLane && !Moving)
         {
             Moving = true;
@@ -73,6 +89,10 @@ public class BikeController : MonoBehaviour
 
     public void Up()
     {
+        if (stopped == true)
+        {
+            return;
+        }
         if (targetLane < MaxLane && !Moving)
         {
             Moving = true;
@@ -155,5 +175,34 @@ public class BikeController : MonoBehaviour
     public void RunBike()
     {
         stopped = false;
+        StartCoroutine("Invincible");
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Ramp"))
+        {
+            Jump = true;
+        }
+    }
+
+    IEnumerator Invincible()
+    {
+        bike.SetActive(true);
+        bike.tag = "Player";
+        int count = 10;
+        while (count > 0)
+        {
+            //透明にする
+            render.material.color = new Color(1, 1, 1, 0);
+            //0.05秒待つ
+            yield return new WaitForSeconds(0.05f);
+            //元に戻す
+            render.material.color = new Color(1, 1, 1, 1);
+            //0.05秒待つ
+            yield return new WaitForSeconds(0.05f);
+            count--;
+        }
+        bike.tag = "player";
     }
 }

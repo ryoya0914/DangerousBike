@@ -8,6 +8,7 @@ public class ScoreController : MonoBehaviour
     public Text scoreLabel;
     float time = 0;
     int previousTime = 0;
+    [SerializeField] BikeController bike;
 
     void Start()
     {
@@ -23,7 +24,7 @@ public class ScoreController : MonoBehaviour
     IEnumerator TimeStart()
     {
         yield return new WaitForSeconds(2);
-        if (GameObject.Find("bike") == true)
+        if (!bike.Stopped)
         {
             time += Time.deltaTime;
             if ((int)time > previousTime)

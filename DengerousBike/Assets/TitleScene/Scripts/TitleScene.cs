@@ -15,7 +15,7 @@ public class TitleScene : MonoBehaviour {
 
     void StartNextScene()
     {
-        SceneManager.LoadScene("main");
+        SceneManager.LoadScene("Garage");
     }
 
     public void OnOptionButtonClicled()
