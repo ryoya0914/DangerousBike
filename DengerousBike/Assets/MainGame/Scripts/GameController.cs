@@ -9,9 +9,12 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject bike;
     [SerializeField] GameObject Up;
     [SerializeField] GameObject Down;
-    [SerializeField] GameObject GameOver;
-    [SerializeField] GameObject ForeGroundGenerator;
-    [SerializeField] GameObject BackGroundGenerator;
+    [SerializeField] GameObject gameover;
+    [SerializeField] GameObject roads;
+    [SerializeField] GameObject ForeGround;
+    [SerializeField] GameObject BackGround;
+    [SerializeField] GameObject Truck;
+    [SerializeField] ScoreController scorecontroller;
     private bool rewardGiven;
     void Start()
     {
@@ -21,29 +24,34 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-
     }
 
 
 
     public void RetrunTitle()
     {
+        scorecontroller.ScroreSave();
         SceneManager.LoadScene("Title");
     }
 
     public void GiveReward()
     {
         rewardGiven = true;
-        bike.GetComponent<BikeController>().RunBike();
+        bike.GetComponent<ScrollObject>().enabled = true;
         Up.GetComponent<Button>().enabled = true;
         Down.GetComponent<Button>().enabled = true;
-        GameOver.GetComponent<Canvas>().enabled = false;
-        ForeGroundGenerator.GetComponent<GroundGenerator>().enabled = true;
-        BackGroundGenerator.GetComponent<GroundGenerator>().enabled = true;
+        gameover.GetComponent<Canvas>().enabled = false;
+        ForeGround.GetComponent<ScrollObject>().enabled = true;
+        BackGround.GetComponent<ScrollObject>().enabled = true;
     }
     public void RestartGame()
     {
         AdController.Instance.ShowRewardedVideo();
+    }
+
+    public void GameOver()
+    {
+        gameover.GetComponent<Canvas>().enabled = true;
     }
 
 }

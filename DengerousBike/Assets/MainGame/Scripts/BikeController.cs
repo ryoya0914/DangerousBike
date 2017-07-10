@@ -13,8 +13,6 @@ public class BikeController : MonoBehaviour
     private bool PushLeft = false;
     private bool PushRight = false;
     private bool Moving = false;
-    private bool Jump = false;
-    private float flap = 0f;
     private float speed = 0;
 
     float movePower = 0.2f;
@@ -25,12 +23,6 @@ public class BikeController : MonoBehaviour
     const float LaneWidth = 1.0f;
     int targetLane;
     [SerializeField] GameObject wall;
-    private bool stopped = false;
-    public bool Stopped
-    {
-        get { return stopped; }
-        set { stopped = value; }
-    }
 
 
 	void Start ()
@@ -43,11 +35,6 @@ public class BikeController : MonoBehaviour
 
     void Update()
     {
-        if (stopped)
-            return;
-
-        StartCoroutine(StartScene());
-
         if (PushLeft == true)
         {
             bike.transform.Rotate(0, 0, -2);
@@ -58,28 +45,12 @@ public class BikeController : MonoBehaviour
             bike.transform.Rotate(0, 0, 2);
         }
 
-        if(Jump == true)
-        {
-            rb2d.AddForce(Vector2.up * flap);
-        }
-        //rb2d.angularVelocity = new Vector3(2,rb2d.angularVelocity.z);
-
-        /*else if (0 < speed)        //*Time.deltaTime;
-        //{
-           // speed -= 0.5f;
-            //rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
-        }*/
-
     }
 
 
 
     public void Down()
     {
-        if(stopped == true)
-        {
-            return;
-        }
         if (targetLane > MinLane && !Moving)
         {
             Moving = true;
@@ -89,10 +60,6 @@ public class BikeController : MonoBehaviour
 
     public void Up()
     {
-        if (stopped == true)
-        {
-            return;
-        }
         if (targetLane < MaxLane && !Moving)
         {
             Moving = true;
@@ -129,17 +96,25 @@ public class BikeController : MonoBehaviour
         pos1.x = 0;
         ToMove.localPosition = pos1;
         Moving = false;
-    }
 
-    IEnumerator StartScene()
-    {
-        yield return new WaitForSeconds(2);
-        if (5 > speed && !stopped)
+        if(targetLane == 2)
         {
-            speed += 0.5f;
-            rb2d.velocity = new Vector3(speed, rb2d.velocity.y);
+            bike.transform.localScale = new Vector3(0.7f, 0.7f, 1);
+        }
+        if(targetLane == 1)
+        {
+            bike.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+        }
+        if (targetLane == 0)
+        {
+            bike.transform.localScale = new Vector3(0.9f, 0.9f, 1);
+        }
+        if (targetLane == -1)
+        {
+            bike.transform.localScale = new Vector3(1f, 1f, 1);
         }
     }
+
 
     public void LeftUp()
     {
@@ -164,27 +139,6 @@ public class BikeController : MonoBehaviour
         SceneManager.LoadScene("main");
     }
 
-    public void StopBike()
-    {
-        speed = 0;
-        rb2d.velocity = Vector3.zero;
-        stopped = true;
-        StopCoroutine(StartScene());
-    }
-
-    public void RunBike()
-    {
-        stopped = false;
-        StartCoroutine("Invincible");
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Ramp"))
-        {
-            Jump = true;
-        }
-    }
 
     IEnumerator Invincible()
     {

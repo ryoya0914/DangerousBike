@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour
 {
-    public Text scoreLabel;
+    [SerializeField] Text scoreLabel;
     float time = 0;
     int previousTime = 0;
-    [SerializeField] BikeController bike;
 
     void Start()
     {
@@ -24,23 +23,19 @@ public class ScoreController : MonoBehaviour
     IEnumerator TimeStart()
     {
         yield return new WaitForSeconds(2);
-        if (!bike.Stopped)
+        time += Time.deltaTime;
+        if ((int)time > previousTime)
         {
-            time += Time.deltaTime;
-            if ((int)time > previousTime)
-            {
-                previousTime++;
-                scoreLabel.text = "Score : " + ((int)time).ToString() + "m";
-            }
+            previousTime++;
+            scoreLabel.text = "Score : " + ((int)time).ToString() + "m";
         }
-        else
+    }
+
+    public void ScroreSave()
+    {
+        if (time >PlayerPrefs.GetInt("HighScore",0))
         {
-            time = Time.deltaTime;
-            if ((int)time > previousTime)
-            {
-                previousTime++;
-                scoreLabel.text = "Score : " + ((int)time).ToString() + "m";
-            }
+            PlayerPrefs.SetInt("HighScore", (int)time);
         }
     }
 }
