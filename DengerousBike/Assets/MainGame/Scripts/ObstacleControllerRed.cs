@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObstacleControllerRed : MonoBehaviour
 {
+    [SerializeField]GameObject ExposionEfect;
     [SerializeField]
     Transform[] LanePosition;
     [SerializeField]
@@ -29,7 +30,13 @@ public class ObstacleControllerRed : MonoBehaviour
         {
             gamecontroller.GameOver();
         }
-
+        if(collision.gameObject.name == "truckBlue")
+        {
+            var exp = PoolManager.SpawnObject(ExposionEfect);
+            exp.transform.position = transform.position;
+            collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            collision.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
 
     public void ChangeHeight()

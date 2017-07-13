@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class BikeController : MonoBehaviour
 {
-    Animator animator;
 
     [SerializeField] Renderer render;
     [SerializeField] GameObject bike;
@@ -28,7 +27,7 @@ public class BikeController : MonoBehaviour
 	void Start ()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+
 
         
     }
@@ -142,9 +141,8 @@ public class BikeController : MonoBehaviour
 
     IEnumerator Invincible()
     {
-        bike.SetActive(true);
-        bike.tag = "Player";
-        int count = 10;
+        gameObject.tag = "InvincibleBike";
+        int count = 40;
         while (count > 0)
         {
             //透明にする
@@ -155,8 +153,20 @@ public class BikeController : MonoBehaviour
             render.material.color = new Color(1, 1, 1, 1);
             //0.05秒待つ
             yield return new WaitForSeconds(0.05f);
+            //透明にする
+            render.material.color = new Color(1, 1, 1, 0);
+            //0.05秒待つ
+            yield return new WaitForSeconds(0.05f);
+            //元に戻す
+            render.material.color = new Color(1, 1, 1, 1);
+            //0.05秒待つ
             count--;
         }
-        bike.tag = "player";
+        gameObject.tag = "player";
+    }
+
+    public void ChangeInvincible()
+    {
+        StartCoroutine(Invincible());
     }
 }

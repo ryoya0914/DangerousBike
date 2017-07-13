@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class ObstacleScrollObject : MonoBehaviour
 {
-    [SerializeField] float Speed = 1.0f;
+    [SerializeField] float speed = 1.0f;
     [SerializeField] float StartPosition;
     [SerializeField] float EndPosition;
-
-    [SerializeField]
-    bool StopScroll = false;
-
+    [SerializeField] bool StopScroll = false;
+    [SerializeField] GameController gameController;
     private ObstacleController OC;
     void Start()
     {
@@ -20,12 +18,19 @@ public class ObstacleScrollObject : MonoBehaviour
 
     void Update()
     {
+        if (gameController.Level == 1) { speed = 1; }
+        if (gameController.Level == 2) { speed = 2; }
+        if (gameController.Level == 3) { speed = 4; }
+        if (gameController.Level == 4) { speed = 6; }
+        if (gameController.Level == 5) { speed = 8; }
+
         if (!StopScroll)
         {
             return;
         }
-        transform.Translate(-1 * Speed * Time.deltaTime, 0, 0);
+        transform.Translate(-1 * speed * Time.deltaTime, 0, 0);
         if (transform.position.x <= EndPosition) ScrollEnd();
+
     }
 
     void ScrollEnd()
