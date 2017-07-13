@@ -13,9 +13,18 @@ public class TitleScene : MonoBehaviour {
     [SerializeField] AudioSource MoveSceneSound;
     [SerializeField] AudioSource Maincamera;
 
+    [SerializeField]
+    UnityEngine.Audio.AudioMixer BGM;
+    [SerializeField]
+    UnityEngine.Audio.AudioMixer SE;
+
     void Start()
     {
         HighScoreLable.text = "HighScore : " + (PlayerPrefs.GetInt("HighScore", 0)).ToString() + "m";
+        var Bgm = PlayerPrefs.GetFloat("BGMVolume", 0);
+        var Se = PlayerPrefs.GetFloat("SEVolume",0);
+        BGM.SetFloat("BGMVolume", Bgm);
+        SE.SetFloat("BGMVolume", Se);
     }
 
 	public void OnStartButtonClicked()

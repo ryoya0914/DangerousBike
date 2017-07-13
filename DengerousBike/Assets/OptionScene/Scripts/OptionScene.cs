@@ -18,6 +18,14 @@ public class OptionScene : MonoBehaviour {
     [SerializeField]
     Text rewardCount;
 
+    [SerializeField]
+    UnityEngine.Audio.AudioMixer BGM;
+    [SerializeField]
+    UnityEngine.Audio.AudioMixer SE;
+
+    [SerializeField]
+    AudioSource ButtonSound;
+
     private bool rewardReady = false;
     private int rewardedTimes = 0;
 
@@ -67,10 +75,35 @@ public class OptionScene : MonoBehaviour {
 
     public void OnBackButtonClicked()
     {
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadScene("Garage");
+        BGMSave();
+        SESave();
     }
 
     public void OnRewardedButtonClicked()
     {
+    }
+
+    public float BGMVolume
+    {
+        set { BGM.SetFloat("BGMVolume", Mathf.Lerp(-80, 0, value)); }
+    }
+
+    public float SEVolume
+    {
+        set { SE.SetFloat("SEVolume", Mathf.Lerp(-80, 0, value)); ButtonSound.Play(); }
+    }
+
+    void BGMSave()
+    {
+        float Volume = 0;
+        BGM.GetFloat("BGMVolume", out Volume);
+        PlayerPrefs.SetFloat("BGMVolume", Volume);
+    }
+    void SESave()
+    {
+        float Volume = 0;
+        SE.GetFloat("SEVolume", out Volume);
+        PlayerPrefs.SetFloat("SEVolume", Volume);
     }
 }
