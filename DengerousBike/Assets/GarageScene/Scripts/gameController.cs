@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.UI;
 
 public class gameController : MonoBehaviour
 {
@@ -12,18 +13,52 @@ public class gameController : MonoBehaviour
     [SerializeField] AudioSource ClickSound;
     [SerializeField] AudioSource MoveSceneSound;
     [SerializeField] AudioSource Maincamera;
-    [SerializeField]
-    SpriteRenderer BikeBlue;
+    [SerializeField] GameObject[] Bikes;
+    [SerializeField] Text CoinLable;
+
     public GameObject bikeType;
     private float Scroll;
+
+    int coin;
+
+    int[] bikePrices = new int[4];
+
     void Start ()
     {
+        coin = PlayerPrefs.GetInt("Coin", 0);
+        CoinLable.text = coin.ToString();
+
+        bikePrices[0] = 0;
+        bikePrices[1] = 100; //BikeBlue
+        bikePrices[2] = 200; //BikeShark
+        bikePrices[3] = 300; //BikeBlack
+
+        UpdateBikes();
+    }
+
+    void UpdateBikes()
+    {
+        bool firstBike = false;
+        foreach (var bike in Bikes)
+        {
+            if (firstBike)
+                continue;
+
+            CoinLable.text = coin.ToString();
+
+            bool unlocked = PlayerPrefs.GetInt("Unlocked" + bike.name, 0) == 0 ? false : true;
+
+            if (unlocked)
+            {
+                bike.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                bike.tag = "Unlocked";
+            }
+        }
     }
 	
 	void Update ()
     {
         BikeScroll();
-        BikeBlue.material.color = new Color(225, 225, 225, 225);
 	}
 
     void BikeScroll()
@@ -54,7 +89,7 @@ public class gameController : MonoBehaviour
             //left
             else if (swipeDelta.x < 0.0f && swipeDelta.y > -0.5f && swipeDelta.y < 0.5f)
             {
-                if(Scroll > -12)
+                if(Scroll > (Bikes.Length - 1) * -6)
                 {
                     Scroll -= 6f;
                     StartCoroutine(MoveOverSeconds(bikeType, new Vector3(Scroll, -1.5f, 0), 0.5f));
@@ -75,7 +110,7 @@ public class gameController : MonoBehaviour
 
     public void Button2()
     {
-        if (Scroll > -12)
+        if (Scroll > (Bikes.Length - 1) * -6)
         {
             Scroll -= 6;
             StartCoroutine(MoveOverSeconds(bikeType, new Vector3(Scroll, -1.5f, 0), 0.5f));
@@ -84,15 +119,48 @@ public class gameController : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
-        ClickSound.Play();
-        m_transitionAnim.SetBool("start", true);
-        MoveScene();
-        Invoke("MainSceneChange", 2.5f);
+        int bikeNum = (int)Scroll / 6;
+        bikeNum *= -1;
+
+        Debug.Log(bikeNum);
+        if(Bikes[bikeNum].tag == "Unlocked")
+        {
+            ClickSound.Play();
+            PlayerPrefs.SetInt("SelectedBike", bikeNum);
+            m_transitionAnim.SetBool("start", true);
+            MoveScene();
+            Invoke("MainSceneChange", 2.5f);
+        }        
     }
     public void BuyButtonClicked()
     {
         ClickSound.Play();
+        int bikeNum = (int)Scroll / 6;
+        bikeNum *= -1;
+        Debug.Log(bikeNum);
+        if (coin >= bikePrices[bikeNum])
+        {
+            coin -= bikePrices[bikeNum];
+            Bikes[bikeNum].GetComponent<BoxCollider2D>().enabled = false;
+            Bikes[bikeNum].tag = "Unlocked";
+            SaveBikeStates();
+            UpdateBikes();
+            Bikes[bikeNum].GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
 
+    void SaveBikeStates()
+    {
+        foreach(var bike in Bikes)
+        {
+            if(bike.tag == "Unlocked")
+            {
+                PlayerPrefs.SetInt("Unlocked" + bike.name, 1);
+            }
+        }
+
+        PlayerPrefs.SetInt("Coin", coin);
+        PlayerPrefs.Save();
     }
 
     void MainSceneChange()
