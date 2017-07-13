@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class BikeController : MonoBehaviour
 {
-
-    [SerializeField] Renderer render;
-    [SerializeField] GameObject bike;
+    [SerializeField] GameObject[] BikePrefabs;
+    Renderer render;
+    GameObject bike;
 
     private bool PushLeft = false;
     private bool PushRight = false;
@@ -28,8 +28,10 @@ public class BikeController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
 
-
-        
+        int bikeNum = PlayerPrefs.GetInt("SelectedBike", 0);
+        GameObject selBike = Instantiate(BikePrefabs[bikeNum], transform);
+        bike = selBike;
+        render = bike.GetComponent<Renderer>();
     }
 
     void Update()

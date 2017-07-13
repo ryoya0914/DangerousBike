@@ -7,14 +7,9 @@ public class HitJudgment : MonoBehaviour
 {
     [SerializeField] GameObject Next;
     [SerializeField] GameObject BuyBike;
-    [SerializeField] Text CoinLable;
-    int coin;
 
     void Start ()
     {
-        coin = PlayerPrefs.GetInt("Coin", 0);
-        CoinLable.text = coin.ToString();
-
         Next.GetComponent<Button>().interactable = false;
         BuyBike.GetComponent<Button>().interactable = false;
     }
@@ -26,34 +21,16 @@ public class HitJudgment : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.gameObject.CompareTag("BikeRed"))
+        if(collision.transform.gameObject.CompareTag("Unlocked"))
         {
             Next.GetComponent<Button>().interactable = true;
+            BuyBike.GetComponent<Button>().interactable = false;
         }
 
-        if (collision.transform.gameObject.CompareTag("BikeBlue"))
+        if(collision.transform.gameObject.CompareTag("Purchasable"))
         {
-            if(coin >= 1)
-            {
-                BuyBike.GetComponent<Button>().interactable = true;
-            }
-            else
-            {
-                BuyBike.GetComponent<Button>().interactable = false;
-            }
-
-        }
-
-        if (collision.transform.gameObject.CompareTag("BikeShark"))
-        {
-            if (coin >= 10)
-            {
-                BuyBike.GetComponent<Button>().interactable = true;
-            }
-            else
-            {
-                BuyBike.GetComponent<Button>().interactable = false;
-            }
+            BuyBike.GetComponent<Button>().interactable = true;
+            Next.GetComponent<Button>().interactable = false;
         }
     }
 }
