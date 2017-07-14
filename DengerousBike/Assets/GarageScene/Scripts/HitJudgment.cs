@@ -25,6 +25,7 @@ public class HitJudgment : MonoBehaviour
         {
             Next.GetComponent<Button>().interactable = true;
             BuyBike.GetComponent<Button>().interactable = false;
+
         }
 
         if(collision.transform.gameObject.CompareTag("Purchasable"))

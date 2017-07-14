@@ -58,7 +58,8 @@ public class Localization : Singleton<Localization> {
         LANGUAGE,
         BACK,
         WATCH_VIDEO,
-        BACK_TO_TITLE
+        BACK_TO_TITLE,
+        PRICE
     };
 
     private UIWord[] m_words = new UIWord[]
@@ -71,6 +72,7 @@ public class Localization : Singleton<Localization> {
         new UIWord("BACK", "戻る", "REGRESAR"),
         new UIWord("Watch a Video to revive", "動画を見て再スタート", "Ver video para revivir"),
         new UIWord("Back to Title", "タイトルに戻る", "Regresar al Titulo"),
+        new UIWord("Price", "値段", "Precio")
     };
 
     void Start()

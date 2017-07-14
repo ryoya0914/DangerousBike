@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject TruckRed02;
     [SerializeField] GameObject TruckRed03;
     [SerializeField] BikeController bikeController;
+    [SerializeField] Button Restart;
     private bool scoreCount = true;
     private bool coinCount = true;
     private bool timeStart = false;
@@ -141,6 +142,14 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
+        if(AdController.Instance.isRewardedVideoReady())
+        {
+
+        }
+        else
+        {
+            Restart.interactable = false;
+        }
         MainCamera.Stop();
         gameover.GetComponent<Canvas>().enabled = true;
         Up.GetComponent<Button>().interactable = false;
@@ -188,7 +197,8 @@ public class GameController : MonoBehaviour
 
     public void CoinSave()
     {
-        PlayerPrefs.SetInt("Coin", (int)coin);
+       int coinNow = PlayerPrefs.GetInt("Coin",0) + (int)coin;
+       PlayerPrefs.SetInt("Coin", coinNow);
     }
 
     public void LevelUp()

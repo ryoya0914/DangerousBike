@@ -12,11 +12,6 @@ public class OptionScene : MonoBehaviour {
     [SerializeField]
     GameObject LangSelPrefab;
 
-    [SerializeField]
-    GameObject rewardButton;
-
-    [SerializeField]
-    Text rewardCount;
 
     [SerializeField]
     UnityEngine.Audio.AudioMixer BGM;
@@ -46,26 +41,6 @@ public class OptionScene : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(!rewardReady)
-        {
-            rewardReady = AdController.Instance.isRewardedVideoReady();
-
-            if(rewardReady)
-            {
-                rewardButton.SetActive(true);
-            }
-        }
-        else
-        {
-            if (frameSkip < 60)
-            {
-                frameSkip++;
-                return;
-            }
-
-            rewardCount.text = rewardedTimes.ToString();
-            frameSkip = 0;
-        }
 	}
 
     public void OnLanguageButtonClicked()
