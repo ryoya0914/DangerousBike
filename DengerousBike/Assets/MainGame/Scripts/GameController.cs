@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour
             countBorder += 20;
             count++;
 
-            if (count <= 4)
+            if (count <= 5)
             {
                 LevelUp();
             }
