@@ -99,21 +99,19 @@
     <Compile Include="Assets\Common\SaveManager\SaveData.cs" />
     <Compile Include="Assets\Common\SaveManager\SaveManager.cs" />
     <Compile Include="Assets\Common\Singleton.cs" />
-    <Compile Include="Assets\GarageScene\Scripts\HitJudgment.cs" />
-    <Compile Include="Assets\GarageScene\Scripts\gameController.cs" />
+    <Compile Include="Assets\GarageScene\Scripts\ScrollController.cs" />
     <Compile Include="Assets\MainGame\Scripts\BikeController.cs" />
     <Compile Include="Assets\MainGame\Scripts\DangerousJudgment.cs" />
-    <Compile Include="Assets\MainGame\Scripts\Explosion.cs" />
     <Compile Include="Assets\MainGame\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\MainGame\Scripts\GameController.cs" />
     <Compile Include="Assets\MainGame\Scripts\ObstacleController.cs" />
     <Compile Include="Assets\MainGame\Scripts\ObstacleControllerRed.cs" />
     <Compile Include="Assets\MainGame\Scripts\ObstacleScroll.cs" />
     <Compile Include="Assets\MainGame\Scripts\ObstacleScrollObject.cs" />
+    <Compile Include="Assets\MainGame\Scripts\ScoreController.cs" />
     <Compile Include="Assets\MainGame\Scripts\ScrollObject.cs" />
     <Compile Include="Assets\OptionScene\Scripts\LanguageSelection.cs" />
     <Compile Include="Assets\OptionScene\Scripts\OptionScene.cs" />
-    <Compile Include="Assets\TitleScene\Scripts\Realtime.cs" />
     <Compile Include="Assets\TitleScene\Scripts\TitleScene.cs" />
   </ItemGroup>
   <ItemGroup>
